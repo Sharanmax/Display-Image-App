@@ -5,9 +5,7 @@
  * @format
  * @flow strict-local
  */
-
 import React from 'react';
-import type {Node} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,7 +15,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import {ListScreen} from './screens/ListScreen'
+import {ViewDetails} from './screens/ViewDetailsScreen'
 import {
   Colors,
   DebugInstructions,
@@ -26,7 +25,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const Section = ({children, title}): Node => {
+const Section = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -52,18 +51,17 @@ const Section = ({children, title}): Node => {
   );
 };
 
-const App: () => Node = () => {
+
+const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  // const backgroundStyle = {
+  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  // };
+  //style={backgroundStyle}
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Text style={{color: "white", fontSize: 20}}>get anime</Text>
-    </SafeAreaView>
+    <ListScreen />
   );
 };
 
