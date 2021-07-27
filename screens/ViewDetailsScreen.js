@@ -11,7 +11,7 @@ import {
   Dimensions
 } from 'react-native';
 
-export const ViewDetails=({ route, navigation })=>{
+const ViewDetails=({ route, navigation })=>{
   
   const {item}= route.params;
   const image = { uri: item["image_uri"] };
@@ -33,6 +33,8 @@ export const ViewDetails=({ route, navigation })=>{
     </View>
   )
 }
+
+export default ViewDetails;
 
 const styles= StyleSheet.create({
   name: {

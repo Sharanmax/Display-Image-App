@@ -50,7 +50,7 @@ const SubmitBtn=({onPress})=>{
     )
 }
 
-export const ListScreen= ()=>{
+const ListScreen= ()=>{
     const [items,setItem]= useState([]);
     const [isLoading, setIsLoading]= useState(true);
     const [id,setId]= useState('');
@@ -117,6 +117,8 @@ export const ListScreen= ()=>{
         </ScrollView>
     )
 }
+
+export default ListScreen;
 
 const styles= StyleSheet.create({
     card: {
