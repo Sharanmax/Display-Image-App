@@ -5,7 +5,10 @@
  * @format
  * @flow strict-local
  */
+import 'react-native-gesture-handler';
 import React from 'react';
+import { NavigationContainer,DefaultTheme, DarkTheme  } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   SafeAreaView,
   ScrollView,
@@ -51,17 +54,25 @@ const Section = ({children, title}) => {
   );
 };
 
+const Stack= createStackNavigator();
 
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-  //style={backgroundStyle}
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
 
   return (
-    <ListScreen />
+    <NavigationContainer theme={DarkTheme}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={ListScreen}
+        />
+        <Stack.Screen name="Details" component={ViewDetails} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

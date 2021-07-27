@@ -8,20 +8,24 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
 const screenWidth= Dimensions.get("window").width;
 const INPUT_WIDTH= screenWidth-132
 
-const CARD =({item})=> {
+const COLORS= ['#FF6663', '#7F95D1', '#A99985', '#6BA292', '#7E8987', '#631A86' ]
+
+const CARD =({item, index})=> {
     const image = { uri: item["image_uri"] };
     const fName= item['file-name'].split('_')[0];
     const lName= item['file-name'].split('_')[1] || '';
     const Name= fName +" "+lName;
 
+    const bgColor= COLORS[index % 6];
+
     return(
-        <ImageBackground style={styles.card} source={image} key={item.id} resizeMode='cover'>
+        <ImageBackground style={[styles.card,{backgroundColor: bgColor}]} source={image} key={item.id} resizeMode='cover'>
             <Text style={styles.name}>{Name}</Text>
         </ImageBackground>
     )
@@ -57,7 +61,7 @@ export const ListScreen= ()=>{
     const displayCards=(items)=>{
         if(items.length>=1){
             return(
-                items.map((item)=> <CARD item={item}/>)
+                items.map((item, index)=> <CARD item={item} index={index}/>)
             )
         }
         else{
@@ -78,7 +82,7 @@ export const ListScreen= ()=>{
 
     return (
         <ScrollView style={{ paddingTop: 30}}>
-            <View style={{flexDirection: "row", justifyContent: "space-between", marginHorizontal: 16}}>
+            <View style={styles.topBar}>
                 <View style={styles.input}>
                     <TextInput
                         onChangeText={(text)=>setId(text)} 
@@ -89,7 +93,7 @@ export const ListScreen= ()=>{
                     />
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={()=>getData()}>
-                    <Text>Submit</Text>
+                    <Text style={styles.submitTxt}>Submit</Text>
                 </TouchableOpacity>
             </View>
             {items && displayCards(items)}
@@ -99,14 +103,14 @@ export const ListScreen= ()=>{
 
 const styles= StyleSheet.create({
     card: {
-        backgroundColor: "rgba(0,0,0,1)", 
+        backgroundColor: "#7F95D1", 
         marginHorizontal: 16,
         height: 200, 
         borderRadius: 12, 
         marginBottom: 30,
         padding: 20,
         overflow: "hidden",
-        shadowColor: '#a5a299',
+        shadowColor: '#C8C8C8',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.8,
         shadowRadius: 2,  
@@ -117,12 +121,12 @@ const styles= StyleSheet.create({
         marginBottom: 30,
         borderRadius: 20,
         paddingLeft: 20,
-        backgroundColor: "#ead2ac",
+        backgroundColor: "#EFF6EE",
         width: INPUT_WIDTH
     },
     btn: {
         height: 40,
-        backgroundColor: "#d1dede",
+        backgroundColor: "#9197AE",
         padding: 10,
         marginLeft: 20,
         borderRadius: 20,
@@ -139,6 +143,16 @@ const styles= StyleSheet.create({
         flex: 1, 
         justifyContent: "center", 
         alignItems: "center"
-    }
+    },
+    topBar: {
+        flexDirection: "row", 
+        justifyContent: "space-between", 
+        marginHorizontal: 16
+    },
+    submitTxt: {
+        color: "white", 
+        fontSize: 14, 
+        fontWeight: "bold"
+    } 
 })
 
