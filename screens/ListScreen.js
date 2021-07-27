@@ -123,7 +123,7 @@ const styles= StyleSheet.create({
         backgroundColor: "#7F95D1", 
         marginHorizontal: 16,
         height: 200, 
-        borderRadius: 12, 
+        borderRadius: 16, 
         marginBottom: 30,
         padding: 20,
         overflow: "hidden",
