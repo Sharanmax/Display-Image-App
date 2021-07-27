@@ -11,7 +11,7 @@ import {
   Dimensions,
   FlatList
 } from 'react-native';
-
+import LSLoader from './LoaderScreen'
 import { useNavigation, DarkTheme } from '@react-navigation/native';
 import { SeenDetailsStore } from '../store/SeenDetails';
 import { observer } from 'mobx-react';
@@ -110,9 +110,7 @@ const ListScreen= observer(()=>{
 
     if(isLoading){
         return(
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#d1dede" />
-            </View>
+            <LSLoader />
         )
     }
 
@@ -181,7 +179,8 @@ const styles= StyleSheet.create({
     topBar: {
         flexDirection: "row", 
         justifyContent: "space-between", 
-        marginHorizontal: 16
+        marginHorizontal: 16,
+        marginTop: 10
     },
     submitTxt: {
         color: "white", 
