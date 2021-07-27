@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
-  ImageBackground,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,23 +11,42 @@ import {
   Dimensions,
 } from 'react-native';
 
+import { useNavigation, DarkTheme } from '@react-navigation/native';
+
+
 const screenWidth= Dimensions.get("window").width;
 const INPUT_WIDTH= screenWidth-132
 
 const COLORS= ['#FF6663', '#7F95D1', '#A99985', '#6BA292', '#7E8987', '#631A86' ]
 
 const CARD =({item, index})=> {
-    const image = { uri: item["image_uri"] };
+    const image = { uri: item["icon_uri"] };
     const fName= item['file-name'].split('_')[0];
     const lName= item['file-name'].split('_')[1] || '';
     const Name= fName +" "+lName;
 
     const bgColor= COLORS[index % 6];
 
+    const navigation = useNavigation();
+
     return(
-        <ImageBackground style={[styles.card,{backgroundColor: bgColor}]} source={image} key={item.id} resizeMode='cover'>
+        <View style={[styles.card,{backgroundColor: bgColor}]}>
+            <View style={{flexDirection: "row", marginBottom: 30, justifyContent: "space-between"}}>
+                <Image source={image} style={styles.icon} resizeMode='cover'/>
+                <TouchableOpacity onPress={()=>navigation.navigate('Details', {item})} activeOpacity={0.9} style={styles.btn}>
+                    <Text style={styles.btnTxt}>View Details</Text>
+                </TouchableOpacity>
+            </View>
             <Text style={styles.name}>{Name}</Text>
-        </ImageBackground>
+        </View>
+    )
+}
+
+const SubmitBtn=({onPress})=>{
+    return (
+        <TouchableOpacity style={styles.submitBtn} onPress={onPress}>
+            <Text style={styles.submitTxt}>Submit</Text>
+        </TouchableOpacity>
     )
 }
 
@@ -38,7 +57,7 @@ export const ListScreen= ()=>{
 
     useEffect(() => {
         getData();
-    }, [id]);
+    }, []);
 
     const getData = async () => {
 
@@ -92,9 +111,7 @@ export const ListScreen= ()=>{
                         keyboardType="numeric"
                     />
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={()=>getData()}>
-                    <Text style={styles.submitTxt}>Submit</Text>
-                </TouchableOpacity>
+                <SubmitBtn onPress={getData}/>
             </View>
             {items && displayCards(items)}
         </ScrollView>
@@ -110,11 +127,6 @@ const styles= StyleSheet.create({
         marginBottom: 30,
         padding: 20,
         overflow: "hidden",
-        shadowColor: '#C8C8C8',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,  
-        elevation: 7
     },
     input: {
         height: 40,
@@ -124,7 +136,7 @@ const styles= StyleSheet.create({
         backgroundColor: "#EFF6EE",
         width: INPUT_WIDTH
     },
-    btn: {
+    submitBtn: {
         height: 40,
         backgroundColor: "#9197AE",
         padding: 10,
@@ -136,7 +148,7 @@ const styles= StyleSheet.create({
     name: {
         color: "white",
         textTransform: "capitalize",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: "bold"
     },
     loaderContainer: {
@@ -153,6 +165,28 @@ const styles= StyleSheet.create({
         color: "white", 
         fontSize: 14, 
         fontWeight: "bold"
-    } 
+    },
+    icon: {
+        height: 80,
+        width: 80,
+        borderRadius: 40,
+        borderWidth: 1,
+        borderColor: "white",
+        backgroundColor: DarkTheme
+    },
+    btn: {
+        height: 40,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 12,
+        width: 110,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    btnTxt: {
+        color: "black", 
+        fontSize: 14, 
+        fontWeight: "bold",
+    }
 })
 
