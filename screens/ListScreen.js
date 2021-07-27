@@ -34,10 +34,9 @@ export const ListScreen= ()=>{
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [id]);
 
     const getData = async () => {
-        const Id= id && parseInt(id);
 
         try {
           const response = await fetch(
@@ -54,11 +53,28 @@ export const ListScreen= ()=>{
         }
     };
 
+    
+    const displayCards=(items)=>{
+        if(items.length>=1){
+            return(
+                items.map((item)=> <CARD item={item}/>)
+            )
+        }
+        else{
+            return(
+                <CARD item={items}/>
+            )
+        }
+    }
+
     if(isLoading){
         return(
-            <ActivityIndicator />
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#d1dede" />
+            </View>
         )
     }
+
 
     return (
         <ScrollView style={{ paddingTop: 30}}>
@@ -76,11 +92,7 @@ export const ListScreen= ()=>{
                     <Text>Submit</Text>
                 </TouchableOpacity>
             </View>
-            {
-                items.map((item)=>
-                    <CARD item={item}/>
-                )
-            }
+            {items && displayCards(items)}
         </ScrollView>
     )
 }
@@ -122,6 +134,11 @@ const styles= StyleSheet.create({
         textTransform: "capitalize",
         fontSize: 16,
         fontWeight: "bold"
+    },
+    loaderContainer: {
+        flex: 1, 
+        justifyContent: "center", 
+        alignItems: "center"
     }
 })
 
