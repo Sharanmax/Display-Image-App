@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {ListScreen, ViewDetailsScreen} from '../screens'
+import {ListScreen, ViewDetailsScreen, HistoryScreen} from '../screens'
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +21,7 @@ export const MyTabs = () => {
       }}
     >
       <Tab.Screen name="Home" component={ListScreen} />
-      <Tab.Screen name="History" component={ViewDetailsScreen} />
+      <Tab.Screen name="History" component={HistoryScreen} />
     </Tab.Navigator>
   );
 }

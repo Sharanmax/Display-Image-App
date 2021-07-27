@@ -9,9 +9,12 @@ import {
   View,
   TextInput,
   Dimensions,
+  FlatList
 } from 'react-native';
 
 import { useNavigation, DarkTheme } from '@react-navigation/native';
+import { SeenDetailsStore } from '../store/SeenDetails';
+import { observer } from 'mobx-react';
 
 
 const screenWidth= Dimensions.get("window").width;
@@ -19,21 +22,20 @@ const INPUT_WIDTH= screenWidth-132
 
 const COLORS= ['#FF6663', '#7F95D1', '#A99985', '#6BA292', '#7E8987', '#631A86' ]
 
-const CARD =({item, index})=> {
+
+const CARD =({item, onPress})=> {
     const image = { uri: item["icon_uri"] };
     const fName= item['file-name'].split('_')[0];
     const lName= item['file-name'].split('_')[1] || '';
     const Name= fName +" "+lName;
 
-    const bgColor= COLORS[index % 6];
-
-    const navigation = useNavigation();
+    const bgColor= COLORS[item['id'] % 6];
 
     return(
         <View style={[styles.card,{backgroundColor: bgColor}]}>
             <View style={{flexDirection: "row", marginBottom: 30, justifyContent: "space-between"}}>
                 <Image source={image} style={styles.icon} resizeMode='cover'/>
-                <TouchableOpacity onPress={()=>navigation.navigate('Details', {item})} activeOpacity={0.9} style={styles.btn}>
+                <TouchableOpacity onPress={onPress} activeOpacity={0.9} style={styles.btn}>
                     <Text style={styles.btnTxt}>View Details</Text>
                 </TouchableOpacity>
             </View>
@@ -50,10 +52,12 @@ const SubmitBtn=({onPress})=>{
     )
 }
 
-const ListScreen= ()=>{
+const ListScreen= observer(()=>{
     const [items,setItem]= useState([]);
     const [isLoading, setIsLoading]= useState(true);
     const [id,setId]= useState('');
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         getData();
@@ -76,16 +80,30 @@ const ListScreen= ()=>{
         }
     };
 
+    const onViewDetails=(item)=>{
+    
+        SeenDetailsStore.addSeen({
+            name: item['file-name'],
+            image: { uri: item["icon_uri"] },
+            id: item.id
+        });
+        navigation.navigate('Details',{item});
+    }
+
     
     const displayCards=(items)=>{
         if(items.length>=1){
             return(
-                items.map((item, index)=> <CARD item={item} index={index}/>)
+                <FlatList
+                    data={items}
+                    renderItem={({item})=><CARD item={item} onPress={()=>onViewDetails(item)}/>}
+                    keyExtractor={item => item.id}
+                />
             )
         }
         else{
             return(
-                <CARD item={items}/>
+                <CARD item={items} onPress={()=>onViewDetails(items)}/>
             )
         }
     }
@@ -100,7 +118,7 @@ const ListScreen= ()=>{
 
 
     return (
-        <ScrollView style={{ paddingTop: 30}}>
+        <View style={{flex: 1}}>
             <View style={styles.topBar}>
                 <View style={styles.input}>
                     <TextInput
@@ -109,26 +127,28 @@ const ListScreen= ()=>{
                         placeholder={`enter a id between 1 and ${items.length}`}
                         placeholderTextColor='black'
                         keyboardType="numeric"
+                        style={{color:"black"}}
                     />
                 </View>
                 <SubmitBtn onPress={getData}/>
             </View>
-            {items && displayCards(items)}
-        </ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {items && displayCards(items)}
+            </ScrollView>
+        </View>
     )
-}
+})
 
 export default ListScreen;
 
 const styles= StyleSheet.create({
     card: {
-        backgroundColor: "#7F95D1", 
+        backgroundColor: "#DCB8CB", 
         marginHorizontal: 16,
         height: 200, 
         borderRadius: 16, 
         marginBottom: 30,
         padding: 20,
-        overflow: "hidden",
     },
     input: {
         height: 40,
@@ -174,7 +194,7 @@ const styles= StyleSheet.create({
         borderRadius: 40,
         borderWidth: 1,
         borderColor: "white",
-        backgroundColor: DarkTheme
+        backgroundColor: 'black'
     },
     btn: {
         height: 40,

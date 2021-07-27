@@ -18,7 +18,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {ListScreen, ViewDetailsScreen} from './screens'
+import { ViewDetailsScreen, HistoryScreen} from './screens'
 import {MyTabs} from './navigators/tabNavigator'
 import {
   Colors,
@@ -69,9 +69,9 @@ const App= () => {
         <Stack.Screen
           name="Home"
           component={MyTabs}
-          options={{ headerTitle: 'ListScreen' }}
         />
         <Stack.Screen name="Details" component={ViewDetailsScreen} />
+        <Stack.Screen name="History" component={HistoryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
