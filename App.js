@@ -19,6 +19,7 @@ import {
   View,
 } from 'react-native';
 import { ViewDetailsScreen, HistoryScreen} from './screens'
+import {StackRightSpinTransition} from './util/Animation'
 import {MyTabs} from './navigators/tabNavigator'
 import {
   Colors,
@@ -65,11 +66,16 @@ const App= () => {
 
   return (
     <NavigationContainer theme={DarkTheme}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={MyTabs}
-        />
+      <Stack.Navigator
+        screenOptions={{
+          cardOverlayEnabled: true,
+          gestureEnabled: false,
+          headerShown:false,
+          ...StackRightSpinTransition,
+        }}
+        initialRouteName={'Home'}
+      >
+        <Stack.Screen name="Home" component={MyTabs} />
         <Stack.Screen name="Details" component={ViewDetailsScreen} />
         <Stack.Screen name="History" component={HistoryScreen} />
       </Stack.Navigator>
