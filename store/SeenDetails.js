@@ -13,6 +13,8 @@ class SeenDetails {
     }
 
     addSeen(item){
+        const id= item.id;
+        this.SeenList= this.SeenList.filter((item)=>item.id!=id)
         this.SeenList= [...this.SeenList,item]
     }
 
