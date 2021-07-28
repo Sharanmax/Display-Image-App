@@ -38,12 +38,6 @@ const CARD =({item, onPress})=> {
 
 const History=()=>{
 
-  if(SeenDetailsStore.SeenList.length==0){
-    <View style={styles.none}>
-        <Text style={{color:"white", fontSize: 16}}>Nothing to Show</Text>
-    </View>
-  }
-
   const renderCard=useCallback(
     ({item})=><CARD item={item} onPress={()=>SeenDetailsStore.deleteSeen(item.id)}/>,
     []
@@ -104,11 +98,6 @@ const styles= StyleSheet.create({
         fontSize: 14, 
         fontWeight: "bold",
     },
-    none: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    }
 })
 
 export default History;
