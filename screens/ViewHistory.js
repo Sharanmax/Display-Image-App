@@ -1,5 +1,5 @@
 import { Observer } from 'mobx-react-lite';
-import React from 'react';
+import React,{useCallback} from 'react';
 import {
   ScrollView,
   Image,
@@ -43,6 +43,11 @@ const History=()=>{
         <Text style={{color:"white", fontSize: 16}}>Nothing to Show</Text>
     </View>
   }
+
+  const renderCard=useCallback(
+    ({item})=><CARD item={item} onPress={()=>SeenDetailsStore.deleteSeen(item.id)}/>,
+    []
+)
   
   return(
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -50,7 +55,7 @@ const History=()=>{
         {()=>
           <FlatList
               data={SeenDetailsStore.SeenList}
-              renderItem={({item})=><CARD item={item} onPress={()=>SeenDetailsStore.deleteSeen(item.id)}/>}
+              renderItem={renderCard}
               keyExtractor={item => item.id}
           />
         }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -90,13 +90,18 @@ const ListScreen= observer(()=>{
         navigation.navigate('Details',{item});
     }
 
+    const renderCard=useCallback(
+        ({item})=><CARD item={item} onPress={()=>onViewDetails(item)}/>,
+        []
+    )
+
     
     const displayCards=(items)=>{
         if(items.length>=1){
             return(
                 <FlatList
                     data={items}
-                    renderItem={({item})=><CARD item={item} onPress={()=>onViewDetails(item)}/>}
+                    renderItem={renderCard}
                     keyExtractor={item => item.id}
                 />
             )
