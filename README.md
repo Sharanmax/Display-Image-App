@@ -6,5 +6,5 @@ then run
 $ npx react-native run-android * # For running on Android emulator or device *
 $ npx react-native run-ios * # For running on iOS emulator or device *
 
-To start Metro, run npx react-native start inside your React Native project folder:
+To start Metro, inside your React Native project folder run:
 $ npx react-native start
