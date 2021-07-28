@@ -15,6 +15,7 @@ import LSLoader from './LoaderScreen'
 import { useNavigation, DarkTheme } from '@react-navigation/native';
 import { SeenDetailsStore } from '../store/SeenDetails';
 import { observer } from 'mobx-react';
+import {InputComponent} from '../components/InputComponent'
 
 
 const screenWidth= Dimensions.get("window").width;
@@ -44,13 +45,6 @@ const CARD =({item, onPress})=> {
     )
 }
 
-const SubmitBtn=({onPress})=>{
-    return (
-        <TouchableOpacity style={styles.submitBtn} onPress={onPress}>
-            <Text style={styles.submitTxt}>Submit</Text>
-        </TouchableOpacity>
-    )
-}
 
 const ListScreen= observer(()=>{
     const [items,setItem]= useState([]);
@@ -61,7 +55,11 @@ const ListScreen= observer(()=>{
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [id]);
+
+    const updateData=(data)=>{
+        setId(data.id)
+    }
 
     const getData = async () => {
 
@@ -122,19 +120,7 @@ const ListScreen= observer(()=>{
 
     return (
         <View style={{flex: 1}}>
-            <View style={styles.topBar}>
-                <View style={styles.input}>
-                    <TextInput
-                        onChangeText={(text)=>setId(text)} 
-                        value={id}
-                        placeholder={`enter a id between 1 and ${items.length}`}
-                        placeholderTextColor='black'
-                        keyboardType="numeric"
-                        style={{color:"black"}}
-                    />
-                </View>
-                <SubmitBtn onPress={getData}/>
-            </View>
+            <InputComponent onPress={updateData} max={items.length}/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 {items && displayCards(items)}
             </ScrollView>
@@ -153,23 +139,6 @@ const styles= StyleSheet.create({
         marginBottom: 30,
         padding: 20,
     },
-    input: {
-        height: 40,
-        marginBottom: 30,
-        borderRadius: 20,
-        paddingLeft: 20,
-        backgroundColor: "#EFF6EE",
-        width: INPUT_WIDTH
-    },
-    submitBtn: {
-        height: 40,
-        backgroundColor: "#9197AE",
-        padding: 10,
-        marginLeft: 20,
-        borderRadius: 20,
-        width: 80,
-        alignItems: "center"
-    },
     name: {
         color: "white",
         textTransform: "capitalize",
@@ -180,17 +149,6 @@ const styles= StyleSheet.create({
         flex: 1, 
         justifyContent: "center", 
         alignItems: "center"
-    },
-    topBar: {
-        flexDirection: "row", 
-        justifyContent: "space-between", 
-        marginHorizontal: 16,
-        marginTop: 10
-    },
-    submitTxt: {
-        color: "white", 
-        fontSize: 14, 
-        fontWeight: "bold"
     },
     icon: {
         height: 80,
