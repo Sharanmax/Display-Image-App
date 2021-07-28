@@ -44,6 +44,9 @@ const CardLoader = () => (
             <View style={[styles.card,{backgroundColor: "#A99985"}]}>
                 <CardLoader />
             </View>
+            <View style={[styles.card,{backgroundColor: "#6BA292"}]}>
+                <CardLoader />
+            </View>
           </View>
       )
   }
