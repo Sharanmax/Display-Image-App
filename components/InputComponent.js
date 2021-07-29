@@ -31,7 +31,7 @@ export const InputComponent=({onPress, max}) => {
               control={control}
               rules={{
               required: false,
-              maxLength: 3,
+              maxLength: 2,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
