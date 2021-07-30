@@ -48,12 +48,13 @@ const CARD =({item, onPress})=> {
 
 const ListScreen= observer(()=>{
     const [items,setItem]= useState([]);
-    const [isLoading, setIsLoading]= useState(true);
+    const [isLoading, setIsLoading]= useState(false);
     const [id,setId]= useState('');
 
     const navigation = useNavigation();
 
     useEffect(() => {
+        setIsLoading(true);
         getData();
     }, [id]);
 
